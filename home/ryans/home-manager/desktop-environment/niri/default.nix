@@ -10,9 +10,7 @@
       (config.custom.linux.windowManager == "niri")
     ];
 
-    systemd = {
-      enable = true;
-    };
+    systemd.enable = true;
 
     settings = {
       spawn-at-startup = ["dms" "run"]; # run Dank Material Shell at startup
@@ -104,11 +102,9 @@
           window-rule._children = [
             # Make all Picture-in-Picture Firefox windows floating by default, rather than tiling
             {
-              match = {
-                _props = {
-                  app-id = "firefox";
-                  title = "^Picture-in-Picture$";
-                };
+              match._props = {
+                app-id = "firefox";
+                title = "^Picture-in-Picture$";
               };
               open-floating = true;
             }
@@ -116,22 +112,10 @@
         }
         {
           window-rule._children = [
-            {
-              match = {
-                _props = {
-                };
-              };
-            }
-          ];
-        }
-        {
-          window-rule._children = [
             # Blur Alacritty with new blur effect.
             {
-              match = {
-                _props = {
-                  app-id = "^Alacritty$";
-                };
+              match._props = {
+                app-id = "^Alacritty$";
               };
               background-effect.blur = true;
             }

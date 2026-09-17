@@ -8,8 +8,8 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
-  services.openssh.generateHostKeys = lib.mkDefault true; # OpenSSH is required
-  # for converting keys into sops keys, so set this as default.
+  services.openssh.generateHostKeys = lib.mkDefault true; # OpenSSH is required for converting keys into sops keys,
+  # so set this as default.
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;

@@ -2,19 +2,13 @@
   outputs,
   modules,
   ...
-}: let
-  inherit (outputs) overlays;
-in {
+}: {
   imports =
     [
       ./system-specific/dock.nix
       modules.drawing
     ]
     ++ (outputs.lib.__internal__.getUserCfgs ["ryans"] ../../../home "darwin");
-
-  nixpkgs.overlays = [
-    overlays.lix
-  ];
 
   system.defaults = {
     NSGlobalDomain = {

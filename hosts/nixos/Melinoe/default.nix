@@ -3,9 +3,7 @@
   pkgs,
   modules,
   ...
-}: let
-  inherit (outputs) overlays;
-in {
+}: {
   imports = [
     ./generated/hardware-configuration.nix
     ./system-specific/bootloader.nix
@@ -20,7 +18,7 @@ in {
     modules.window-manager
     modules.display-manager.dms
     modules.security.sops
-    modules.drawing
+    modules.profiles.drawing
     (outputs.lib.users.getNixUserModule "ryans")
   ];
 
@@ -31,16 +29,9 @@ in {
     touchBarSupport = false; # broken
   };
 
-  nixpkgs.overlays = [
-    overlays.lix
-  ];
-
   services.xserver.enable = true;
-
   security.polkit.enable = true;
-
   services.gvfs.enable = true;
-
   programs.dconf.enable = true;
 
   environment.extraInit = ''

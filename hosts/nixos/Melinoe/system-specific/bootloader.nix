@@ -2,9 +2,10 @@
   boot = {
     supportedFilesystems = ["btrfs"];
 
-    loader.systemd-boot = {
+    loader.limine = {
       enable = true;
-      configurationLimit = 5;
+      efiSupport = true;
+      maxGenerations = 5;
     };
   };
 }

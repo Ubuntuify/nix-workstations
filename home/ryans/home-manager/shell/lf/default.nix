@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs.lf = {
     enable = true;
-    previewer.source = pkgs.writeScript "pv.fish" (builtins.readFile ./lf/previewer.fish);
+    previewer.source = pkgs.writeScript "pv.fish" (builtins.readFile ./previewer.fish);
 
     settings = {
       icons = true;
@@ -29,8 +29,8 @@
   };
 
   xdg.configFile = {
-    "lf/icons".source = ./lf/icons; # put icons file in lf config (from src repo)
-    "lf/colors".source = ./lf/colors; # put colors file in lf config (from src repo)
+    "lf/icons".source = ./icons; # put icons file in lf config (from src repo)
+    "lf/colors".source = ./colors; # put colors file in lf config (from src repo)
   };
 
   # adds fish integration

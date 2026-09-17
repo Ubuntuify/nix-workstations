@@ -5,8 +5,9 @@
     ./applications/social.nix
     ./applications/miscellaneous.nix
     ./shell/fish.nix
+    ./shell/fastfetch/default.nix
     ./shell/git.nix
-    ./shell/lf.nix
+    ./shell/lf/default.nix
     ./shell/neovim.nix
     ./shell/utilities.nix
     ./desktop-environment/niri

@@ -29,8 +29,6 @@ in {
     };
   };
 
-  programs.fastfetch.enable = true;
-
   programs.fd = {
     enable = true;
     hidden = true;

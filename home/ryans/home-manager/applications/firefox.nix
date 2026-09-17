@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -9,13 +8,9 @@
 in
   lib.mkIf cfg.system.graphics (lib.mkMerge [
     {
-      home.packages = [
-        pkgs.widevine-cdm
-      ];
+      home.packages = [pkgs.widevine-cdm];
 
-      programs.firefox = let
-        firefox-addons = inputs.nur.legacyPackages.${pkgs.stdenv.hostPlatform.system}.repos.rycee.firefox-addons;
-      in {
+      programs.firefox = {
         enable = true;
 
         policies = {
@@ -42,7 +37,7 @@ in
           };
           extensions = {
             force = true; # make sure that all extensions are declarative
-            packages = with firefox-addons;
+            packages = with pkgs.nur.repos.rycee.firefox-addons;
               [
                 ublock-origin-upstream
                 skip-redirect
@@ -159,10 +154,12 @@ in
             "image.jxl.enabled" = true; # enable JPEG-XL support
             "browser.tabs.insertRelatedAfterCurrent" = false;
             "general.smoothScroll.msdPhysics.enabled" = true;
+
             "browser.tabs.min_inactive_duration_before_unload" =
               if cfg.system.isLowRam # check if the system is a Low RAM machine
               then 60000 # unload tabs after 1 minute.
               else 90000; # unload tabs after 1:30 minutes.
+
             "gfx.font_rendering.cleartype_params.rendering_mode" = 5;
             "gfx.font_rendering.cleartype_params.force_gdi_classic_max_size" = 0;
             "dom.animations.offscreen-throttling" = false;
@@ -172,14 +169,6 @@ in
 
             # Nova redesign
             "browser.nova.enabled" = true;
-
-            # Widevine CDM support for ARM64 (hack! until widevine gets fixed upstream)
-            #"media.gmp-widevinecdm.version" = "system-installed";
-            #"media.gmp-widevinecdm.visible" = true;
-            #"media.gmp-widevinecdm.enabled" = true;
-            #"media.gmp-widevinecdm.autoupdate" = false;
-            #"media.eme.enabled" = true;
-            #"media.eme.encrypted-media-encryption-scheme.enabled" = true;
           };
         };
       };

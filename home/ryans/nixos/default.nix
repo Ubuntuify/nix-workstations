@@ -26,6 +26,15 @@ in
         user = "ryans";
         options = {linux.windowManager = "niri";}; # TODO: Fix later
       };
+
+      # Unfree packages that are invoked in the home-manager shell.
+      nixpkgs.config.allowUnfreePackages = [
+        "widevine-cdm"
+      ];
+
+      nixpkgs.overlays = [
+        outputs.overlays.firefox-widevine-cdm
+      ];
     }
 
     # sops-nix security plugin is only conditionally made when the "sops" nixosModule is active.

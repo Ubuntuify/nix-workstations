@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   environment.systemPackages = [
     pkgs.nh # nix cli helper written in rust, faster than nixos-rebuild-ng
     pkgs.aria2
@@ -10,7 +14,8 @@
     pkgs.git
     pkgs.wget2
     pkgs.curl
-    pkgs.uv
     pkgs.nix-tree
   ];
+
+  nixpkgs.overlays = [inputs.nur.overlays.default];
 }

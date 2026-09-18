@@ -88,6 +88,9 @@ in
               };
             };
           };
+
+          containersForce = true; # fix issue where activation script doesn't run because of existing containers.json
+
           containers = {
             Personal = {
               id = 1;

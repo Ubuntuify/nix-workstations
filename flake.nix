@@ -15,7 +15,7 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs"; # These stop nix from downloading multiple instances of nixpkgs
 
     # Secrets manager
-    sops-nix.url = "github:Mic92/sops-nix?ref=pull/984/merge"; # HACK!: use PR until nixpkgs conflict is resolved
+    sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # User components (such as for: setting up home directories, and homebrew)

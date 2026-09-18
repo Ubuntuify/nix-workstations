@@ -13,6 +13,7 @@
     ./desktop-environment/niri
     ./desktop-environment/dms.nix
     ./desktop-environment/theme.nix
+    ./utilities/linux-specific.nix
   ];
 
   xdg.enable = true;

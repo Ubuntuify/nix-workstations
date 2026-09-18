@@ -33,8 +33,19 @@ in
       ];
 
       nixpkgs.overlays = [
-        outputs.overlays.firefox-widevine-cdm
+        outputs.overlays.firefox-widevine-cdm # Enables widevine-cdm to be installed on ARM64 (linux-aarch64) systems with Firefox.
       ];
+
+      # Allows KDE connect ranges in the firewall.
+      networking.firewall = rec {
+        allowedTCPPortRanges = [
+          {
+            from = 1714;
+            to = 1764;
+          }
+        ];
+        allowedUDPPortRanges = allowedTCPPortRanges;
+      };
     }
 
     # sops-nix security plugin is only conditionally made when the "sops" nixosModule is active.

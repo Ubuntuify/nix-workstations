@@ -1,15 +1,24 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   imports = [
     inputs.dms.homeModules.dank-material-shell
+    inputs.dms-plugin-registry.homeModules.default
   ];
 
   programs.dank-material-shell = {
     enable = true;
 
-    systemd.enable = false; # already running through niri config, other WM should do the same
+    systemd.enable = lib.mkForce false; # already running through niri config, other WM should do the same
+
+    plugins = {
+      dankKDEConnect.enable = true;
+    };
 
     session = {
-      isLightMode = false;
+      wallpaperPath = ../background/orange/sunset-beach-still.png;
     };
 
     enableDynamicTheming = true;
@@ -26,6 +35,10 @@
       animationVariant = true;
 
       blurEnabled = true;
+
+      useAutoLocation = true;
+
+      rememberLastQuery = true;
 
       showWorkspaceIndex = true;
       showWorkspacePadding = true;
@@ -68,6 +81,10 @@
             }
             "clipboard"
             {
+              id = "dankKDEConnect";
+              enabled = true;
+            }
+            {
               id = "cpuUsage";
               enabled = true;
               minimumWidth = false;
@@ -97,6 +114,8 @@
           ];
 
           useAutoLocation = true;
+          batteryColorMode = "level";
+
           spacing = 0;
           innerPadding = 9;
           barInsetPadding = 6;

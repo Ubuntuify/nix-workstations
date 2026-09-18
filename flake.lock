@@ -78,6 +78,26 @@
         "type": "github"
       }
     },
+    "dms-plugin-registry": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789730062,
+        "narHash": "sha256-53oC4s+jF4uNcaRo6vkAhSLzfcvT3VuUgWfZQBopKto=",
+        "owner": "AvengeMedia",
+        "repo": "dms-plugin-registry",
+        "rev": "24bb92ebc09a7dc662baf2a8a09deb7d55890b42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "dms-plugin-registry",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "locked": {
         "lastModified": 1761640442,
@@ -342,6 +362,7 @@
       "inputs": {
         "apple-silicon": "apple-silicon",
         "dms": "dms",
+        "dms-plugin-registry": "dms-plugin-registry",
         "haumae": "haumae",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",

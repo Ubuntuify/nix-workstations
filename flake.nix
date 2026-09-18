@@ -2,8 +2,8 @@
   description = "Ryan's Nix configuration flake";
 
   nixConfig = {
-    extra-substituters = ["https://nix-community.cachix.org" "https://nixos-apple-silicon.cachix.org"];
-    extra-trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" "nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20="];
+    extra-substituters = ["https://nix-community.cachix.org"];
+    extra-trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="];
   };
 
   inputs = {
@@ -58,14 +58,53 @@
 
   outputs = inputs @ {self, ...}: let
     inherit (self) outputs;
-    systems = import ./systems.nix {inherit inputs outputs;};
+    inherit (inputs.nixpkgs) lib;
   in {
-    overlays = inputs.haumae.lib.load {
-      src = ./overlays;
-      inputs = {inherit inputs;};
-    };
+    # Uses `haumae` to recusively import all overlays in ./overlays/
+    overlays = inputs.haumae.lib.load {src = ./overlays;};
+
+    # Internal library for within the flake. Can be accessed through `outputs.lib`
     lib = import ./lib {inherit self inputs outputs;};
-    inherit (systems) nixosConfigurations darwinConfigurations;
+
+    nixosConfigurations = let
+      mkNixosSystems = systemPath: let
+        systems = builtins.readDir (builtins.toPath systemPath);
+      in
+        builtins.mapAttrs (host: type:
+          if (type == "directory")
+          then let
+            systemMetadata = fromTOML (builtins.readFile (systemPath + "/${host}/system.toml"));
+            inherit (systemMetadata) system;
+          in
+            outputs.lib.sysconfig.mkNixos {
+              system = system.architecture or "x86_64-linux";
+              hostname = system.hostname or host;
+              sysadmin = lib.mkIf (builtins.hasAttr "users" systemMetadata) systemMetadata.users.sysadmin;
+            }
+          else null)
+        systems;
+    in
+      mkNixosSystems ./hosts/nixos;
+
+    darwinConfigurations = let
+      mkDarwinSystems = systemPath: let
+        systems = builtins.readDir (builtins.toPath systemPath);
+      in
+        builtins.mapAttrs (host: type:
+          if (type == "directory")
+          then let
+            systemMetadata = fromTOML (builtins.readFile (systemPath + "/${host}/system.toml"));
+          in
+            outputs.lib.sysconfig.mkDarwin {
+              hostname = systemMetadata.system.hostname or host;
+              sysadmin = systemMetadata.users.sysadmin or "ryans";
+              system = systemMetadata.system.architecture or "aarch64-darwin"; # set the default to Apple Silicon, because who uses an actual x86_64 Mac anyways (unless it's a Hackintosh or something)
+            }
+          else null)
+        systems;
+    in
+      mkDarwinSystems ./hosts/darwin;
+
     formatter = outputs.lib.forEachSupportedSystem ({pkgs}: pkgs.alejandra);
   };
 }

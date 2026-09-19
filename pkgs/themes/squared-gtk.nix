@@ -2,17 +2,16 @@
   stdenvNoCC,
   lib,
   fetchFromGitHub,
-  gtk-engine-murrine,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "squared-gtk";
-  version = "a23182a";
+  version = "59a67bd";
 
   src = fetchFromGitHub {
     owner = "EliverLara";
     repo = "Squared";
     rev = finalAttrs.version;
-    sha256 = "sha256-dyhdRxFpq6QPXingp21dkITIuLveYEiBJFo8wuP+BqQ=";
+    sha256 = "sha256-3Rr1Mum786LdgNR83APge9hGxGDMmkMqdUS+peECANY=";
   };
 
   dontBuild = true;

@@ -11,12 +11,12 @@
     inputs.apple-silicon.nixosModules.apple-silicon-support # make sure that the Apple Silicon support module is loaded.
   ];
 
-  options.custom.asahi = {
+  options.perpensity.asahi = {
     firmwareHash = lib.mkOption {
       type = lib.types.str;
     };
-    touchBarSupport = lib.mkEnableOption "touch bar support (using tiny-dfr)";
-    showNotch = lib.mkEnableOption "notch space on supporting devices.";
+    touchBarSupport = lib.mkEnableOption "touch bar support using tiny-dfr, only applicable to 13\" Macbook Pro (pre-refresh)";
+    showNotchArea = lib.mkEnableOption "notch space on supporting devices.";
   };
 
   config = {
@@ -48,12 +48,12 @@
         # use fetchTree to automatically pull the firmware/calibration data from the ESP partition, without manual
         type = "path"; # setup
         path = "/boot/vendorfw/";
-        narHash = config.custom.asahi.firmwareHash;
+        narHash = config.perpensity.asahi.firmwareHash;
       }).outPath;
 
     hardware.asahi.avd = {
       enable = lib.mkDefault true; # enable hardware acceleration of decoding/encoding media (e.g. HEVC and H264)
-      vaapi-support = lib.mkForce true; # required for desktop integration... *experimental
+      vaapi-support = lib.mkForce true; # required for desktop integration through VA-API
     };
 
     # You can't touch EFI variables on an Asahi Linux system, and doing so will cause the switch to fail.
@@ -61,7 +61,7 @@
 
     # Configurable parts for Apple Macbook quirks, such as the Touch Bar and the Notch on older and newer devices
     # respectively.
-    hardware.apple.touchBar.enable = config.custom.asahi.touchBarSupport;
-    boot.kernelParams = lib.optionals config.custom.asahi.showNotch ["appledrm.show_notch=1"];
+    hardware.apple.touchBar.enable = config.perpensity.asahi.touchBarSupport;
+    boot.kernelParams = lib.optionals config.perpensity.asahi.showNotchArea ["appledrm.show_notch=1"];
   };
 }

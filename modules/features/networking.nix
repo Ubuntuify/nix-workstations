@@ -48,6 +48,15 @@
     # - provide DNSSEC and DoH; do no filtering and no logging (at least claim to do so); have servers in Europe
     server_names =
       [
+        # Asian-based DNS servers
+        "dnscry.pt-hanoi-ipv4"
+        "dnscry.pt-hanoi-ipv6"
+
+        "dnscry.pt-doh-hongkong02-ipv4"
+        "dnscry.pt-bengaluru-ipv4"
+        "dnscry.pt-doh-nuremberg-ipv4"
+
+        # European (EU) DNS servers
         "artikel10-doh-ipv4"
         "artikel10-doh-ipv6"
 

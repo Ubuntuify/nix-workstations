@@ -1,5 +1,7 @@
 {
   inputs,
+  pkgs,
+  config,
   lib,
   ...
 }: {
@@ -9,7 +11,7 @@
   ];
 
   programs.dank-material-shell = {
-    enable = true;
+    enable = config.perpensity.roles.graphics && pkgs.stdenv.hostPlatform.isLinux;
 
     systemd.enable = lib.mkForce false; # already running through niri config, other WM should do the same
 

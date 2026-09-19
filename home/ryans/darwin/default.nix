@@ -29,10 +29,6 @@ in {
       "discord"
       "grishka/grishka/neardrop"
     ];
-    masApps = {
-      # These are Mac Store applications, defined with an ID.
-      "DaVinci Resolve" = 571213070;
-    };
   };
 
   home-manager.users.${user} = outputs.lib.home-manager.mkHomeEntry {

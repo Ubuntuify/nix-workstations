@@ -6,7 +6,7 @@
   imports =
     [
       ./system-specific/dock.nix
-      modules.drawing
+      modules.profiles.content-creation
     ]
     ++ (outputs.lib.__internal__.getUserCfgs ["ryans"] ../../../home "darwin");
 

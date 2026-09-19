@@ -24,7 +24,7 @@ in
 
       home-manager.users.ryans = outputs.lib.home-manager.mkHomeEntry {
         user = "ryans";
-        options = {linux.windowManager = "niri";}; # TODO: Fix later
+        options = {platform.linux.windowManager = "niri";}; # TODO: Fix later
       };
 
       # Unfree packages that are invoked in the home-manager shell.

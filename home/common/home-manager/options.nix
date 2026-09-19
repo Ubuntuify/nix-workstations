@@ -1,8 +1,8 @@
 {lib, ...} @ args: {
-  options.custom = {
+  options.perpensity = {
     # Machine-specific options, such as mitigating for low RAM or whether graphical applications should be enabled
     # in the config
-    system = {
+    roles = {
       graphics = lib.mkOption {
         type = lib.types.bool;
         description = "Whether to enable graphical applications, such as Firefox or Alacritty.";
@@ -10,15 +10,17 @@
         # all nix-darwin setups are for development only and not for server use.
       };
 
-      isLowRam = lib.mkEnableOption "some low RAM mitigation features, such as auto-tab-discard, etc.";
+      ramConservation = lib.mkEnableOption "some low RAM mitigation features, such as auto-tab-discard, etc.";
     };
 
-    # Linux-specific options, these have no effect when not on a Linux machine.
-    linux = {
-      windowManager = lib.mkOption {
-        type = lib.types.enum ["sway" "niri" null];
-        description = "Which window manager (and respective config) to use.";
-        default = "sway";
+    platform = {
+      # Linux-specific options, these have no effect when not on a Linux machine.
+      linux = {
+        windowManager = lib.mkOption {
+          type = lib.types.enum ["sway" "niri" null];
+          description = "Which window manager (and respective config) to use.";
+          default = "sway";
+        };
       };
     };
   };

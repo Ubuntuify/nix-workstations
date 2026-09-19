@@ -2,15 +2,13 @@
   pkgs,
   lib,
   ...
-}: let
-  inherit (pkgs.stdenv.hostPlatform) isLinux isDarwin;
-in {
+}: {
   # GUI applications, applications such as calibre, etc.
 
   home.packages =
     [
     ]
-    ++ (lib.optionals isLinux [
+    ++ (lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       pkgs.nemo-with-extensions # file manager
 
       pkgs.novelwriter # novel writer / scrivener alternative
@@ -19,8 +17,8 @@ in {
 
   # nemo - file manager, required association
   xdg.mimeApps.defaultApplications = {
-    "inode/directory" = lib.optionals isLinux ["nemo.desktop"];
-    "application/x-gnome-saved-search" = lib.optionals isLinux ["nemo.desktop"];
+    "inode/directory" = lib.optionals pkgs.stdenv.hostPlatform.isLinux ["nemo.desktop"];
+    "application/x-gnome-saved-search" = lib.optionals pkgs.stdenv.hostPlatform.isLinux ["nemo.desktop"];
   };
 
   dconf.settings."org/cinnamon/desktop/applications/terminal".exec = "alacritty";

@@ -24,7 +24,7 @@ in {
     user,
     options ? {},
   }:
-    lib.mkMerge ((outputs.lib.home-manager.mkHomeModules ../home user) ++ [{custom = options;}]);
+    lib.mkMerge ((outputs.lib.home-manager.mkHomeModules ../home user) ++ [{perpensity = options;}]);
 
   mkTopLevelHomeCfg = {
     user,
@@ -43,7 +43,7 @@ in {
         # used with home-manager's NixOS and nix-darwin plugins, while this is left for usage with
         # a standalone setup.
         ++ [
-          {custom = options;} # Set custom options;
+          {perpensity = options;} # Set custom options;
         ];
     };
 

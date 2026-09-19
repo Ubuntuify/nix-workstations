@@ -5,9 +5,7 @@
   ...
 }: {
   imports = [
-    ./generated/hardware-configuration.nix
-    ./system-specific/bootloader.nix
-    ./system-specific/swap.nix
+    ./hardware-configuration.nix
     modules.hardware-specific.asahi
     modules.security.sops
     modules.features.audio
@@ -18,31 +16,55 @@
     modules.window-manager
     modules.display-manager.dms
     modules.security.sops
-    modules.profiles.drawing
+    modules.profiles.content-creation
     (outputs.lib.users.getNixUserModule "ryans")
   ];
 
-  # Options required for Asahi (apple-silicon)'s hardware module, such as providing the firmware hash
-  # for pure flakes, and other options like touch bar support.
-  custom.asahi = {
+  # Options that interact with the hardware-specific asahi module.
+  perpensity.asahi = {
     firmwareHash = "sha256-5p9g6q8YdbTtc5YrjB4MInxxIiQNMbUoihLzyhSa7AQ=";
     touchBarSupport = false; # broken
   };
+
+  # Bootloader options
+  boot = {
+    supportedFilesystems = ["btrfs"];
+    loader.limine = {
+      enable = true;
+      efiSupport = true;
+      maxGenerations = 5;
+    };
+  };
+
+  # Set "zswap" (in-swap compression) paramaters in kernel.
+  boot.kernelParams = [
+    "zswap.enabled=1"
+    "zswap.compressor=zstd"
+    "zswap.zpool=zsmalloc"
+    "zswap.max_pool_percent=50"
+  ];
+
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+      randomEncryption.enable = true;
+    }
+  ];
 
   services.xserver.enable = true;
   security.polkit.enable = true;
   services.gvfs.enable = true;
   programs.dconf.enable = true;
 
-  environment.extraInit = ''
-    export XDG_DATA_DIRS="$XDG_DATA_DIRS:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
-  '';
-
+  # Enable the niri Wayland window manager.
   programs.niri.enable = true;
 
-  programs.nix-ld.enable = true;
-
+  # Battery support. (Some desktop environments won't see the battery without this service.)
   services.upower.enable = true;
+
+  # Be on the bleeding edge of Nix versions.
+  nix.package = pkgs.nixVersions.latest;
 
   system.stateVersion = "25.11";
 }

@@ -26,5 +26,10 @@
   ];
 
   fonts.fontconfig.enable = true;
-  fonts.fontconfig.useEmbeddedBitmaps = true;
+  fonts.fontconfig = {
+    useEmbeddedBitmaps = true; # use embedded font bitmaps like in Calibri
+    subpixel.rgba = lib.mkDefault "rgb"; # subpixel hinting through pixel layout, which may differ per system.
+  };
+
+  fonts.enableDefaultPackages = true; # enable default fonts (for linux)
 }

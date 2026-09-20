@@ -24,10 +24,30 @@ lib.mkIf config.perpensity.roles.graphics (lib.mkMerge [
       profiles.ryan = {
         search = {
           force = true;
-          default = "google";
+          default = "DuckDuckGo (No AI)";
           privateDefault = "ddg";
-          order = ["google" "ddg"];
+          order = ["DuckDuckGo (No AI)" "google" "ddg"];
+
+          engines = {
+            # DuckDuckGo's explicitly No AI search engine.
+            "DuckDuckGo (No AI)" = {
+              urls = [
+                {
+                  template = "https://noai.duckduckgo.com";
+                  params = [
+                    {
+                      name = "q";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              iconMapObj."16" = "https://external-content.duckduckgo.com/ip3/duckduckgo.com.ico";
+              definedAliases = ["@noai"];
+            };
+          };
         };
+
         extensions = {
           force = true; # make sure that all extensions are declarative
           packages = with pkgs.nur.repos.rycee.firefox-addons;
@@ -43,6 +63,7 @@ lib.mkIf config.perpensity.roles.graphics (lib.mkMerge [
               lovely-forks
             ]
             ++ lib.optionals config.perpensity.roles.ramConservation [auto-tab-discard];
+
           settings = {
             "uBlock0@raymondhill.net" = {
               force = true;
@@ -96,6 +117,7 @@ lib.mkIf config.perpensity.roles.graphics (lib.mkMerge [
             color = "red";
           };
         };
+
         settings = {
           # Disable irritating first-run stuff
           "browser.disableResetPrompt" = true;

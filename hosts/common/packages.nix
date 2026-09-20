@@ -14,7 +14,7 @@
     pkgs.git
     pkgs.wget2
     pkgs.curl
-    pkgs.nix-tree
+    pkgs.nix-graph
   ];
 
   nixpkgs.overlays = [inputs.nur.overlays.default];

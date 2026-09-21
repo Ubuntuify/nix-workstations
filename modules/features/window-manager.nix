@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-with lib; let
+}: let
   configList = builtins.attrValues config.home-manager.users;
   makeWindowManagerConfig = windowManager: let
     definedPackages = builtins.catAttrs "wayland.windowManager.${windowManager}.package" configList;
@@ -14,11 +13,11 @@ with lib; let
 
       # We only get to choose one package for a window manager, so we'll have to compromise and pick the
       # first one.
-      package = mkIf (lists.length definedPackages != 0) (builtins.elemAt definedPackages 0);
+      package = lib.mkIf (lib.lists.length definedPackages != 0) (builtins.elemAt definedPackages 0);
     };
   };
 in
-  mkMerge [
+  lib.mkMerge [
     # Do a check if home-manager configures a specific window manager, and if so, enable the appropriate NixOS feature
     # TODO: causes infinite recursion for some reason now?
     #(makeWindowManagerConfig "sway")

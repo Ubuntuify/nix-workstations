@@ -5,6 +5,7 @@
   lib,
   config,
   inputs,
+  outputs,
   ...
 }: {
   imports = [
@@ -22,12 +23,9 @@
   config = {
     hardware.asahi.enable = true;
 
-    environment.systemPackages = with pkgs; [
-      asahi-bless # allows switching boot device, similar to Startup Disk on MacOS (or the bless utility).
-      asahi-btsync # allows sync of bluetooth devices between containers
-
-      # Custom packages
-      (pkgs.callPackage ../../pkgs/asahi/asahi-wrappers.nix {})
+    environment.systemPackages = [
+      pkgs.asahi-bless # allows switching boot device, similar to Startup Disk on MacOS (or the bless utility).
+      outputs.pkgs.asahi.wrappers
     ];
 
     # Sync Bluetooth from MacOS to keep pairing ability between operating systems.

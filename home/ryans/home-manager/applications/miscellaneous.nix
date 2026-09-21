@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: {
   # GUI applications, applications such as calibre, etc.
@@ -8,7 +9,7 @@
   home.packages =
     [
     ]
-    ++ (lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+    ++ (lib.optionals (pkgs.stdenv.hostPlatform.isLinux && config.perpensity.roles.graphics) [
       pkgs.nemo-with-extensions # file manager
 
       pkgs.novelwriter # novel writer / scrivener alternative
@@ -25,7 +26,7 @@
 
   # calibre - EPUB / book reader
   programs.calibre = {
-    enable = true;
+    enable = pkgs.stdenv.hostPlatform.isLinux && config.perpensity.roles.graphics;
 
     plugins = [
     ];

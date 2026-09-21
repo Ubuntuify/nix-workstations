@@ -25,7 +25,7 @@
 
     # Set the default flake location to the system administrator's xdg share folder,
     # allowing for easier rebuilds.
-    flake = "/home/${config.custom.systemUser}/.local/share/nix-config";
+    flake = "/home/${config.custom.systemUser}/.local/share/nix-workstations";
 
     # Substitute in-built nix-garbage-collect service with nh (yet another nix helper)
     # which seems to clean more things than standard.

@@ -10,7 +10,7 @@
 in {
   imports = [inputs.nixos-wsl.nixosModules.default];
 
-  options.custom = {
+  options.perpensity = {
     wsl.graphics = lib.mkEnableOption "enable WSLg (hardware acceleration for GPU passthrough)";
   };
 
@@ -21,6 +21,6 @@ in {
     wsl.interop.register = true;
 
     # use the default provided by the option
-    wsl.useWindowsDriver = config.custom.wsl.graphics;
+    wsl.useWindowsDriver = config.perpensity.wsl.graphics;
   };
 }

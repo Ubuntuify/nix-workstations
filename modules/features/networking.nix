@@ -21,6 +21,11 @@
     dns = "none";
     wifi.backend = "iwd";
     wifi.powersave = true;
+
+    settings = {
+      # Enable CLAT (IPv6-mostly) on Network Manager.
+      ipv4.dhcp-ipv6-only-preferred = "auto";
+    };
   };
 
   # DNS settings (use caching)
@@ -83,14 +88,6 @@
 
   # Enable IPv6
   networking.enableIPv6 = true;
-
-  # Enable IPv6-mostly networks
-  services.clatd.enable = true;
-  services.clatd.enableNetworkManagerIntegration = true;
-
-  services.clatd.settings = {
-    plat-prefix = "64:ff9b::/96";
-  };
 
   # Configure the device to only use Cloudflare's DNS servers
   networking.useDHCP = false;

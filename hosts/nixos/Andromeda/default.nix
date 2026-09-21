@@ -12,6 +12,6 @@
 
   home-manager.users.${config.custom.systemUser} = outputs.lib.home-manager.mkHomeEntry {
     user = config.custom.systemUser;
-    options = {system.graphics = false;};
+    options = {roles.graphics = false;};
   };
 }

@@ -36,6 +36,7 @@
       url = "github:AvengeMedia/dms-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mdgreet.url = "github:MOIS3Y/mdgreet";
 
     # Support modules (modules that connect to main system components to add patches for NixOS to work)
     nixos-wsl = {
@@ -69,6 +70,12 @@
 
     # Internal library for within the flake. Can be accessed through `outputs.lib`
     lib = import ./lib {inherit self inputs outputs;};
+
+    # Packages used within this flake.
+    pkgs = inputs.haumae.lib.load {
+      src = ./pkgs;
+      loader = inputs.haumae.lib.loaders.callPackage;
+    };
 
     nixosConfigurations = let
       mkNixosSystems = systemPath: let

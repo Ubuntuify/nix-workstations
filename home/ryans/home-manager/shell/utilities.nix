@@ -35,31 +35,31 @@ in {
     ignores = [".git/" "*.bak" ".DS_Store"];
   };
 
-  home.packages = with pkgs;
+  home.packages =
     [
       # Packages that exist both on Linux and Darwin systems.
-      zip
-      xz
-      unzip
-      _7zz
-      file
-      lstr
-      which
-      gnused
-      gnutar
-      gawk
-      zstd
-      btop
+      pkgs.zip
+      pkgs.xz
+      pkgs.unzip
+      pkgs._7zz
+      pkgs.file
+      pkgs.lstr
+      pkgs.which
+      pkgs.gnused
+      pkgs.gnutar
+      pkgs.gawk
+      pkgs.zstd
+      pkgs.btop
     ]
     ++
     # Packages that only exist on Linux, and should not be added to
     # home.packages on darwin systems.
     (lib.optionals (pkgs.stdenv.hostPlatform.isLinux) [
-      lsof
-      ethtool
-      lm_sensors
-      pciutils
-      usbutils
+      pkgs.lsof
+      pkgs.ethtool
+      pkgs.lm_sensors
+      pkgs.pciutils
+      pkgs.usbutils
     ]);
 
   # Nix can start taking a lot of space, as it doesn't remove old versions of
@@ -68,16 +68,13 @@ in {
 
   # This checks if there's already a corresponding configuration in nixosConfig
   # (there's none for nix-darwin), and removes it from home-manager if there is.
-  programs.nh = let
-    defaultFlakeLocation = "${config.xdg.dataHome}/nix-workstation";
-  in
-    lib.mkIf (!nixosConfig.programs.nh.enable or (!isNixOS)) {
+  programs.nh = {
+    enable = !nixosConfig.programs.nh.enable;
+    flake = "${config.xdg.dataHome}/nix-workstations"; # use default flake location
+    clean = {
       enable = true;
-      flake = defaultFlakeLocation; # use default flake location
-      clean = {
-        enable = true;
-        dates = "weekly";
-        extraArgs = "--verbose --keep-since 7d --optimise";
-      };
+      dates = "weekly";
+      extraArgs = "--verbose --keep-since 7d --optimise";
     };
+  };
 }

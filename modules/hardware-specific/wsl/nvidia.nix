@@ -5,10 +5,10 @@
   ...
 }: {
   imports = [
-    modules.hardware.wsl.default # load default options and settings
+    modules.hardware-specific.wsl.default # load default options and settings
   ];
 
-  custom.wsl.graphics = lib.mkForce true;
+  perpensity.wsl.graphics = lib.mkForce true;
 
   # NixOS-WSL specific settings
 

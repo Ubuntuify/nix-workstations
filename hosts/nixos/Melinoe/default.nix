@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+
     modules.hardware-specific.asahi
     modules.security.sops
     modules.features.audio
@@ -13,17 +14,19 @@
     modules.features.networking
     modules.features.printing
     modules.features.bluetooth
-    modules.window-manager
-    modules.display-manager.dms
+    modules.features.window-manager
+    modules.features.plymouth
+    modules.display-manager.mdgreet-greetd
     modules.security.sops
     modules.profiles.content-creation
+
     (outputs.lib.users.getNixUserModule "ryans")
   ];
 
   # Options that interact with the hardware-specific asahi module.
   perpensity.asahi = {
     firmwareHash = "sha256-5p9g6q8YdbTtc5YrjB4MInxxIiQNMbUoihLzyhSa7AQ=";
-    touchBarSupport = false; # broken
+    touchBarSupport = true;
   };
 
   # Bootloader options

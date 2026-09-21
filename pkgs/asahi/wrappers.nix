@@ -12,9 +12,9 @@ in
   stdenvNoCC.mkDerivation {
     name = "asahi-wrappers";
     version = 1.0;
-    buildInputs = with pkgs; [
+    buildInputs = [
       # Dependencies
-      asahi-bless
+      pkgs.asahi-bless
 
       # Scripts
       reboot-to-macos
